@@ -1,0 +1,280 @@
+/* pages/new-project/new-project.wxss */
+
+/* 卡片样式 */
+.card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+/* 表单组 */
+.form-group {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  background: #fff;
+  box-sizing: border-box;
+  resize: none;
+}
+
+/* 日期选择器 */
+.picker-value {
+  height: 80rpx;
+  line-height: 80rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  background: #fff;
+  color: #333;
+}
+
+/* 重要程度选择器 */
+.importance-selector {
+  margin-top: 12rpx;
+}
+
+.importance-option {
+  display: inline-block;
+  padding: 16rpx 32rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #666;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.importance-option.selected {
+  border-color: #4A90E2;
+  background: #4A90E2;
+  color: #fff;
+}
+
+/* 添加子任务按钮 */
+.add-subtask-btn {
+  padding: 12rpx 24rpx;
+  background: #4A90E2;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  cursor: pointer;
+}
+
+/* 子任务列表 */
+.subtask-list {
+  margin-top: 16rpx;
+}
+
+.subtask-item {
+  border: 2rpx solid #f0f0f0;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  background: #fafafa;
+}
+
+.subtask-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.subtask-index {
+  font-size: 26rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.subtask-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  color: #4A90E2;
+  cursor: pointer;
+}
+
+.action-btn.delete {
+  color: #ff4757;
+}
+
+/* 子任务内容 */
+.subtask-content {
+  margin-top: 16rpx;
+}
+
+.subtask-name {
+  width: 100%;
+  height: 60rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 6rpx;
+  padding: 0 16rpx;
+  font-size: 26rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+}
+
+.subtask-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.setting-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 权重滑块 */
+.weight-slider {
+  margin: 0;
+}
+
+/* 进度预览 */
+.progress-preview {
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12rpx;
+  background: #f0f0f0;
+  border-radius: 6rpx;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4A90E2;
+  border-radius: 6rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 28rpx;
+  color: #4A90E2;
+  font-weight: bold;
+}
+
+.weight-summary {
+  text-align: center;
+}
+
+.summary-text {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  padding: 32rpx 0;
+}
+
+.btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  border: none;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.btn-primary {
+  background: #4A90E2;
+  color: #fff;
+}
+
+/* 优先级选择器样式 */
+.priority-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 12rpx;
+}
+
+.priority-option {
+  padding: 16rpx 20rpx;
+  border: 2rpx solid #E9ECEF;
+  border-radius: 12rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #666;
+  background: #F8F9FA;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.priority-option.selected {
+  border-color: #4A90E2;
+  background: #E5F3FF;
+  color: #4A90E2;
+  font-weight: 500;
+}
+
+.priority-option:active {
+  transform: scale(0.98);
+}

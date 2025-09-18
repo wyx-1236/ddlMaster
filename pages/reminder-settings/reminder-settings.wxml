@@ -1,0 +1,120 @@
+<!--pages/reminder-settings/reminder-settings.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">提醒设置</text>
+  </view>
+
+  <!-- 基本设置 -->
+  <view class="section">
+    <view class="section-title">基本设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-name">启用提醒</text>
+        <text class="setting-desc">开启任务提醒功能</text>
+      </view>
+      <switch 
+        checked="{{reminderEnabled}}" 
+        bindchange="toggleReminder"
+        color="#4A90E2"
+      />
+    </view>
+
+         <view class="setting-item">
+       <view class="setting-info">
+         <text class="setting-name">检查间隔</text>
+         <text class="setting-desc">提醒检查的时间间隔，间隔越短提醒越及时</text>
+       </view>
+       <picker 
+         mode="selector" 
+         range="{{['1分钟', '3分钟', '5分钟', '10分钟']}}"
+         value="{{intervalIndex}}"
+         bindchange="onIntervalChange"
+       >
+         <view class="picker-value">{{checkInterval}}分钟</view>
+       </picker>
+     </view>
+  </view>
+
+  <!-- 提醒方式 -->
+  <view class="section">
+    <view class="section-title">提醒方式</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-name">声音提醒</text>
+        <text class="setting-desc">提醒时播放提示音</text>
+      </view>
+      <switch 
+        checked="{{soundEnabled}}" 
+        bindchange="toggleSound"
+        color="#4A90E2"
+      />
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-name">震动提醒</text>
+        <text class="setting-desc">提醒时震动设备</text>
+      </view>
+      <switch 
+        checked="{{vibrationEnabled}}" 
+        bindchange="toggleVibration"
+        color="#4A90E2"
+      />
+    </view>
+  </view>
+
+  <!-- 订阅消息 -->
+  <view class="section">
+    <view class="section-title">消息订阅</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-name">订阅消息</text>
+        <text class="setting-desc">接收微信推送的任务提醒</text>
+      </view>
+      <view class="subscribe-status {{subscribed ? 'subscribed' : 'not-subscribed'}}">
+        {{subscribed ? '已订阅' : '未订阅'}}
+      </view>
+    </view>
+
+    <view class="subscription-info">
+      <text class="subscription-status">订阅状态：{{subscriptionStatus}}</text>
+    </view>
+    
+    <button 
+      class="subscribe-btn" 
+      bindtap="subscribeMessage"
+      disabled="{{subscribed}}"
+    >
+      {{subscribed ? '已订阅' : '立即订阅'}}
+    </button>
+    
+    <button 
+      class="unsubscribe-btn" 
+      bindtap="unsubscribeMessage"
+      wx:if="{{subscribed}}"
+    >
+      取消订阅
+    </button>
+  </view>
+
+  <!-- 测试功能 -->
+  <view class="section">
+    <view class="section-title">测试功能</view>
+    
+    <button class="test-btn" bindtap="testReminder">
+      测试提醒
+    </button>
+  </view>
+
+     <!-- 说明 -->
+   <view class="tips">
+     <text class="tips-title">💡 使用提示</text>
+     <text class="tips-content">• 提醒功能需要小程序在前台运行</text>
+     <text class="tips-content">• 检查间隔越短，提醒越及时，但会消耗更多电量</text>
+     <text class="tips-content">• 订阅消息可以在后台接收提醒</text>
+     <text class="tips-content">• 建议开启所有提醒方式以获得最佳体验</text>
+   </view>
+</view>

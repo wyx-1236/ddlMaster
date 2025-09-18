@@ -1,0 +1,139 @@
+/* pages/tasks/tasks.wxss */
+/* 任务页面特定样式 */
+
+/* 编辑按钮样式 */
+.edit-btn {
+  float: right;
+  background: #4A90E2;
+  color: #FFFFFF;
+  padding: 8rpx 16rpx;
+  border-radius: 6rpx;
+  font-size: 24rpx;
+  cursor: pointer;
+}
+
+/* 可点击卡片样式 */
+.clickable-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clickable-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.1);
+}
+
+.arrow-icon {
+  font-size: 24rpx;
+  color: #4A90E2;
+  font-weight: bold;
+  float: right;
+}
+
+.task-summary {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 12rpx;
+}
+
+.summary-text {
+  font-size: 24rpx;
+  color: #7F8C8D;
+}
+
+/* 任务操作按钮样式 */
+.task-actions {
+  display: flex;
+  gap: 12rpx;
+  margin-left: 16rpx;
+}
+
+.action-btn {
+  padding: 8rpx 16rpx;
+  border-radius: 6rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: #007bff;
+}
+
+.delete-btn {
+  background: #DC3545;
+}
+
+/* 任务详情样式 */
+.task-details {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+  line-height: 1.4;
+}
+
+/* 任务优先级样式 */
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+/* 移除图标相关样式 */
+
+/* 任务项基础样式优化 */
+.task-item {
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.1);
+}
+
+/* 任务状态样式 */
+.task-status {
+  margin-top: 8rpx;
+}
+
+.status-text {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.status-text.completed {
+  color: #28A745;
+  font-weight: 500;
+}
+
+/* 已完成任务样式 */
+.completed-task .task-name {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.completed-task .task-deadline {
+  color: #999;
+}
+
+/* 标题栏样式优化 */
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .edit-btn, .delete-btn {
+    padding: 6rpx 12rpx;
+    font-size: 22rpx;
+  }
+  
+  .task-details {
+    font-size: 22rpx;
+  }
+}

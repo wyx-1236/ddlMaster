@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tasks/tasks",
+    "pages/add-task/add-task",
+    "pages/all-tasks/all-tasks",
+    "pages/projects/projects",
+    "pages/new-project/new-project",
+    "pages/project-detail/project-detail",
+    "pages/all-projects/all-projects",
+    "pages/reminder-settings/reminder-settings",
+    "pages/edit-project/edit-project",
+    "pages/edit-task/edit-task"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4A90E2",
+    "navigationBarTitleText": "日程代办提醒",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F9FA",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#4A90E2",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tasks/tasks",
+        "iconPath": "images/tasks.png",
+        "selectedIconPath": "images/tasks-active.png",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/projects/projects",
+        "iconPath": "images/projects.png",
+        "selectedIconPath": "images/projects-active.png",
+        "text": "项目"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

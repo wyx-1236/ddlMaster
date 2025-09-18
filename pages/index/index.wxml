@@ -1,0 +1,149 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 日历板块 -->
+  <view class="calendar">
+    <view class="calendar-header">
+      <view class="calendar-title">
+        {{currentYear}}年{{currentMonth}}月
+      </view>
+      <view class="calendar-nav">
+        <view class="calendar-nav-btn" bindtap="prevMonth">‹</view>
+        <view class="calendar-nav-btn" bindtap="nextMonth">›</view>
+        <view class="reminder-settings-btn" bindtap="goToReminderSettings">🔔</view>
+      </view>
+    </view>
+    
+    <view class="calendar-grid">
+      <!-- 星期标题 -->
+      <view class="calendar-weekday" wx:for="{{weekdays}}" wx:key="*this">
+        {{item}}
+      </view>
+      
+      <!-- 日期格子 -->
+      <view 
+        wx:for="{{calendarDays}}" 
+        wx:key="index"
+        class="calendar-day {{item.isToday ? 'today' : ''}} {{item.isSelected ? 'selected' : ''}} {{item.hasTasks ? 'has-tasks' : ''}} {{!item.isCurrentMonth ? 'other-month' : ''}} {{item.isWeekend ? 'isWeekend' : ''}}"
+        bindtap="selectDate"
+        data-index="{{index}}"
+      >
+        {{item.day}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 选中日期任务板块 -->
+  <view class="card">
+    <view class="title">
+      <block wx:if="{{isSelectedToday}}">
+        今日任务
+      </block>
+      <block wx:else>
+        {{selectedMonth}}月{{selectedDay}}日的任务
+      </block>
+      <view class="date-info" wx:if="{{selectedDate}}">
+        {{selectedYear}}年{{selectedMonth}}月{{selectedDay}}日
+        <text wx:if="{{selectedDate.getDay() === 0 || selectedDate.getDay() === 6}}" class="weekend-mark">周末</text>
+      </view>
+    </view>
+    <view wx:if="{{todayTasks.length === 0}}" style="text-align: center; color: #999; padding: 40rpx 0;">
+      这一天没有任务安排
+    </view>
+    <view 
+      wx:for="{{todayTasks}}" 
+      wx:key="id"
+      class="task-item"
+      style="background: {{item.priorityBgColor}};"
+    >
+      <view 
+        class="task-checkbox {{item.completed ? 'completed' : ''}}"
+        bindtap="completeTask"
+        data-id="{{item.id}}"
+      >
+        <text wx:if="{{item.completed}}">✓</text>
+      </view>
+      <view class="task-content">
+        <view class="task-header">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-project" wx:if="{{item.projectName}}">
+            <text class="project-label">📁 {{item.projectName}}</text>
+          </view>
+          <view class="task-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+            <view 
+              wx:for="{{item.tags}}" 
+              wx:key="*this"
+              wx:for-item="tagId"
+              class="task-tag"
+              style="background: {{item.tagColors[tagId]}};"
+            >
+              <text class="tag-icon">{{item.tagIcons[tagId]}}</text>
+              <text class="tag-name">{{item.tagNames[tagId]}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="task-deadline" wx:if="{{item.type === 'periodic'}}">
+          截止时间：{{item.deadline}} {{item.deadlineTime}}
+        </view>
+        <view class="task-cycle-info" wx:if="{{item.type === 'cycle'}}">
+          <view class="cycle-date-range">周期：{{item.startDate}} 至 {{item.endDate}}</view>
+          <view class="cycle-progress" wx:if="{{item.cycleStats}}">
+            完成进度：{{item.cycleStats.completedDates}}/{{item.cycleStats.totalDates}} ({{item.cycleStats.completionRate}}%)
+          </view>
+        </view>
+        <view class="task-details" wx:if="{{item.details}}">{{item.details}}</view>
+      </view>
+      <view class="tag tag-{{item.type}}">
+        {{item.type === 'periodic' ? '定期' : '每日'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 拖欠任务板块 -->
+  <view class="card" wx:if="{{overdueTasks.length > 0}}">
+    <view class="title">拖欠任务</view>
+    <view 
+      wx:for="{{overdueTasks}}" 
+      wx:key="id"
+      class="task-item"
+      style="background: {{item.priorityBgColor}};"
+    >
+      <view 
+        class="task-checkbox {{item.completed ? 'completed' : ''}}"
+        bindtap="completeTask"
+        data-id="{{item.id}}"
+      >
+        <text wx:if="{{item.completed}}">✓</text>
+      </view>
+      <view class="task-content">
+        <view class="task-header">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-project" wx:if="{{item.projectName}}">
+            <text class="project-label">📁 {{item.projectName}}</text>
+          </view>
+          <view class="task-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+            <view 
+              wx:for="{{item.tags}}" 
+              wx:key="*this"
+              wx:for-item="tagId"
+              class="task-tag"
+              style="background: {{item.tagColors[tagId]}};"
+            >
+              <text class="tag-icon">{{item.tagIcons[tagId]}}</text>
+              <text class="tag-name">{{item.tagNames[tagId]}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="task-deadline" wx:if="{{item.type === 'periodic'}}">
+          截止时间：{{item.deadline}} {{item.deadlineTime}}
+        </view>
+        <view class="task-details" wx:if="{{item.details}}">{{item.details}}</view>
+      </view>
+      <view class="tag tag-{{item.type}}">
+        {{item.type === 'periodic' ? '定期' : '每日'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 浮动添加按钮 -->
+  <view class="fab" bindtap="addTask">+</view>
+</view>

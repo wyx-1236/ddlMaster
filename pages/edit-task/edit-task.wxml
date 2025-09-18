@@ -1,0 +1,223 @@
+<!--pages/edit-task/edit-task.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">编辑任务</text>
+  </view>
+
+  <view class="form">
+    <!-- 任务名称 -->
+    <view class="form-group">
+      <text class="label">任务名称 *</text>
+      <input 
+        class="input" 
+        placeholder="请输入任务名称" 
+        value="{{taskName}}"
+        bindinput="onNameInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 任务类型 -->
+    <view class="form-group">
+      <text class="label">任务类型</text>
+      <picker 
+        mode="selector" 
+        range="{{typeNames}}" 
+        value="{{typeIndex}}"
+        bindchange="onTypeChange"
+      >
+        <view class="picker">
+          <text class="picker-text">{{typeNames[typeIndex]}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 任务描述 -->
+    <view class="form-group">
+      <text class="label">任务描述</text>
+      <textarea 
+        class="textarea" 
+        placeholder="请输入任务描述（可选）" 
+        value="{{taskDetails}}"
+        bindinput="onDetailsInput"
+        maxlength="200"
+        auto-height
+      />
+    </view>
+
+    <!-- 定期任务：截止日期和时间 -->
+    <view class="form-group" wx:if="{{taskType === 'periodic'}}">
+      <text class="label">截止日期 *</text>
+      <picker 
+        mode="date" 
+        value="{{taskDeadline}}" 
+        bindchange="onDeadlineChange"
+        start="{{today}}"
+      >
+        <view class="picker">
+          <text class="picker-text">{{taskDeadline || '请选择截止日期'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-group" wx:if="{{taskType === 'periodic'}}">
+      <text class="label">截止时间</text>
+      <picker 
+        mode="time" 
+        value="{{taskDeadlineTime}}" 
+        bindchange="onDeadlineTimeChange"
+      >
+        <view class="picker">
+          <text class="picker-text">{{taskDeadlineTime || '请选择截止时间'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 周期任务：周期设置 -->
+    <view class="form-group" wx:if="{{taskType === 'cycle'}}">
+      <text class="label">周期设置 *</text>
+      <view class="cycle-settings">
+        <text class="cycle-text">每</text>
+        <input 
+          class="cycle-input" 
+          type="number" 
+          value="{{cycleValue}}"
+          bindinput="onCycleValueInput"
+          placeholder="1"
+        />
+        <picker 
+          mode="selector" 
+          range="{{cycleTypeNames}}" 
+          value="{{cycleTypeIndex}}"
+          bindchange="onCycleTypeChange"
+        >
+          <view class="cycle-picker">
+            <text class="cycle-picker-text">{{cycleTypeNames[cycleTypeIndex]}}</text>
+            <text class="picker-arrow">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group" wx:if="{{taskType === 'cycle'}}">
+      <text class="label">开始日期 *</text>
+      <picker 
+        mode="date" 
+        value="{{startDate}}" 
+        bindchange="onStartDateChange"
+        start="{{today}}"
+      >
+        <view class="picker">
+          <text class="picker-text">{{startDate || '请选择开始日期'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-group" wx:if="{{taskType === 'cycle'}}">
+      <text class="label">结束日期 *</text>
+      <picker 
+        mode="date" 
+        value="{{endDate}}" 
+        bindchange="onEndDateChange"
+        start="{{startDate || today}}"
+      >
+        <view class="picker">
+          <text class="picker-text">{{endDate || '请选择结束日期'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 优先级 -->
+    <view class="form-group">
+      <text class="label">优先级</text>
+      <picker 
+        mode="selector" 
+        range="{{priorityOptions}}" 
+        range-key="name"
+        value="{{priorityIndex}}"
+        bindchange="onPriorityChange"
+      >
+        <view class="picker">
+          <text class="picker-text">{{priorityOptions[priorityIndex].name}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 关联项目 -->
+    <view class="form-group">
+      <text class="label">关联项目</text>
+      <picker 
+        mode="selector" 
+        range="{{projects}}" 
+        range-key="name"
+        value="{{projectIndex}}"
+        bindchange="onProjectChange"
+      >
+        <view class="picker">
+          <text class="picker-text">{{taskProjectName || '请选择项目（可选）'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 标签选择 -->
+    <view class="form-group">
+      <text class="label">标签</text>
+      <view class="tags-container">
+        <view 
+          class="tag-item {{selectedTags.indexOf(item.id) > -1 ? 'selected' : ''}}"
+          wx:for="{{tags}}"
+          wx:key="id"
+          bindtap="toggleTag"
+          data-tag-id="{{item.id}}"
+        >
+          <text class="tag-icon">{{item.icon}}</text>
+          <text class="tag-name">{{item.name}}</text>
+        </view>
+        
+        <!-- 自定义标签按钮 -->
+        <view class="tag-item custom-tag-btn" bindtap="showCustomTagInput">
+          <text class="tag-icon">📝</text>
+          <text class="tag-name">自定义</text>
+        </view>
+      </view>
+      
+      <!-- 自定义标签输入 -->
+      <view class="custom-tag-input" wx:if="{{showCustomTagInput}}">
+        <view class="input-group">
+          <input 
+            class="custom-tag-name-input" 
+            placeholder="请输入标签名称" 
+            value="{{customTagName}}"
+            bindinput="onCustomTagNameInput"
+            maxlength="10"
+          />
+          <view class="custom-tag-actions">
+            <button class="action-btn cancel" bindtap="hideCustomTagInput">取消</button>
+            <button class="action-btn confirm" bindtap="addCustomTag">添加</button>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 已选标签显示 -->
+      <view class="selected-tags" wx:if="{{selectedTagNames}}">
+        <text class="selected-tags-text">{{selectedTagNames}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="btn btn-danger" bindtap="deleteTask">删除任务</button>
+    <button class="btn btn-primary" bindtap="saveTask">保存修改</button>
+  </view>
+</view>
+
+
+

@@ -1,0 +1,383 @@
+<!--pages/add-task/add-task.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="title">添加新任务</view>
+    
+    <!-- 任务类型选择 -->
+    <view class="form-group">
+      <view class="form-label">任务类型</view>
+      <view class="type-selector">
+        <view 
+          class="type-option {{taskType === item.value ? 'selected' : ''}}"
+          wx:for="{{typeOptions}}" 
+          wx:key="value"
+          bindtap="selectTaskType"
+          data-type="{{item.value}}"
+        >
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 周期设置（仅周期任务显示） -->
+    <view class="form-group" wx:if="{{taskType === 'cycle'}}">
+      <view class="form-label">执行周期</view>
+      <view class="cycle-settings">
+        <view class="cycle-type-selector">
+          <view 
+            class="cycle-type-option {{cycleType === 'days' ? 'selected' : ''}}"
+            bindtap="selectCycleType"
+            data-type="days"
+          >
+            每几天
+          </view>
+          <view 
+            class="cycle-type-option {{cycleType === 'weeks' ? 'selected' : ''}}"
+            bindtap="selectCycleType"
+            data-type="weeks"
+          >
+            每几周
+          </view>
+        </view>
+        <view class="cycle-value-input">
+          <input 
+            type="number" 
+            class="cycle-input"
+            value="{{cycleValue}}"
+            bindinput="setCycleValue"
+            placeholder="请输入周期"
+            min="1"
+            max="365"
+          />
+          <text class="cycle-unit">{{cycleType === 'days' ? '天' : '周'}}</text>
+        </view>
+      </view>
+      <view class="cycle-desc">
+        <text class="desc-text">任务将每{{cycleValue || '?'}}{{cycleType === 'days' ? '天' : '周'}}执行一次</text>
+      </view>
+      
+      <!-- 起始日期 -->
+      <view class="form-group">
+        <view class="form-label">起始日期 <text class="required">*</text></view>
+        <picker 
+          mode="date" 
+          value="{{startDate}}"
+          bindchange="selectStartDate"
+        >
+          <view class="date-picker">
+            {{startDate || '请选择起始日期'}}
+          </view>
+        </picker>
+      </view>
+      
+      <!-- 结束日期 -->
+      <view class="form-group">
+        <view class="form-label">结束日期 <text class="required">*</text></view>
+        <picker 
+          mode="date" 
+          value="{{endDate}}"
+          bindchange="selectEndDate"
+        >
+          <view class="date-picker">
+            {{endDate || '请选择结束日期'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 任务名称 -->
+    <view class="form-group">
+      <view class="form-label">任务名称 <text class="required">*</text></view>
+      <input 
+        class="input" 
+        placeholder="请输入任务名称"
+        value="{{taskName}}"
+        bindinput="inputTaskName"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 截止日期（仅定期任务显示） -->
+    <view class="form-group" wx:if="{{taskType === 'periodic'}}">
+      <view class="form-label">截止日期 <text class="required">*</text></view>
+      <picker 
+        mode="date" 
+        value="{{deadline}}"
+        bindchange="selectDeadline"
+      >
+        <view class="date-picker">
+          {{deadline || '请选择截止日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- 截止时间（仅定期任务显示） -->
+    <view class="form-group" wx:if="{{taskType === 'periodic'}}">
+      <view class="form-label">截止时间 <text class="required">*</text></view>
+      <picker 
+        mode="time" 
+        value="{{deadlineTime}}"
+        bindchange="selectDeadlineTime"
+      >
+        <view class="time-picker">
+          {{deadlineTime || '请选择截止时间'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- 关联项目 -->
+    <view class="form-group">
+      <view class="form-label">关联项目</view>
+      <view class="project-selector">
+        <view 
+          wx:for="{{projects}}" 
+          wx:key="id"
+          class="project-option {{selectedProjectId === item.id ? 'selected' : ''}}"
+          bindtap="selectProject"
+          data-project-id="{{item.id}}"
+        >
+          <view class="project-info">
+            <text class="project-name">{{item.name}}</text>
+            <text class="project-progress">{{item.progress}}%</text>
+          </view>
+        </view>
+        
+        <!-- 无项目选项 -->
+        <view 
+          class="project-option {{selectedProjectId === '' ? 'selected' : ''}}"
+          bindtap="clearProjectSelection"
+        >
+          <view class="project-info">
+            <text class="project-name">不关联项目</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="project-desc" wx:if="{{selectedProjectName}}">
+        <text class="desc-text">已选择项目：{{selectedProjectName}}</text>
+      </view>
+    </view>
+
+    <!-- 任务标签 -->
+    <view class="form-group">
+      <view class="form-label">任务标签</view>
+      <view class="tag-selector">
+        <view 
+          wx:for="{{tags}}" 
+          wx:key="id"
+          class="tag-option {{selectedTags.indexOf(item.id) > -1 ? 'selected' : ''}}"
+          bindtap="toggleTag"
+          data-tag-id="{{item.id}}"
+          style="background: {{selectedTags.indexOf(item.id) > -1 ? item.color : '#F8F9FA'}}; border-color: {{item.color}};"
+        >
+          <text class="tag-icon">{{item.icon}}</text>
+          <text class="tag-name">{{item.name}}</text>
+        </view>
+        
+        <!-- 自定义标签按钮 -->
+        <view 
+          class="tag-option custom-tag-btn"
+          bindtap="showCustomTagInput"
+          style="background: #F8F9FA; border-color: #6C757D; border-style: dashed;"
+        >
+          <text class="tag-icon">+</text>
+          <text class="tag-name">自定义</text>
+        </view>
+      </view>
+      
+      <!-- 自定义标签输入框 -->
+      <view class="custom-tag-input" wx:if="{{showCustomTagInput}}">
+        <view class="input-group">
+          <input 
+            class="custom-tag-name-input"
+            placeholder="请输入自定义标签名称"
+            value="{{customTagName}}"
+            bindinput="onCustomTagNameInput"
+            maxlength="10"
+          />
+          <view class="custom-tag-actions">
+            <view class="action-btn cancel" bindtap="hideCustomTagInput">取消</view>
+            <view class="action-btn confirm" bindtap="addCustomTag">添加</view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="tag-desc" wx:if="{{selectedTags.length > 0}}">
+        <text class="desc-text">已选择：{{selectedTagNames}}</text>
+      </view>
+    </view>
+
+    <!-- 任务详情 -->
+    <view class="form-group">
+      <view class="form-label">任务详情</view>
+      <textarea 
+        class="textarea" 
+        placeholder="请输入任务详情（可选）"
+        value="{{details}}"
+        bindinput="inputDetails"
+        maxlength="200"
+        auto-height
+      />
+    </view>
+
+    <!-- 提醒设置 -->
+    <view class="form-group">
+      <view class="form-label">
+        任务提醒
+        <switch 
+          class="reminder-switch" 
+          checked="{{enableReminder}}" 
+          bindchange="toggleReminder"
+        />
+      </view>
+      
+      <view class="reminder-settings" wx:if="{{enableReminder}}">
+        <view class="reminder-desc">
+          <text class="desc-text">系统将在任务截止时间前的相应时间发送微信通知</text>
+        </view>
+        
+        <view class="reminder-list">
+          <view 
+            wx:for="{{reminderSettings}}" 
+            wx:key="id" 
+            class="reminder-item"
+          >
+            <view class="reminder-time-inputs">
+              <view class="time-input-group">
+                <input 
+                  type="number" 
+                  class="time-input"
+                  value="{{item.days}}"
+                  bindinput="updateReminderSetting"
+                  data-id="{{item.id}}"
+                  data-field="days"
+                  placeholder="0"
+                  min="0"
+                  max="365"
+                />
+                <text class="time-unit">天</text>
+              </view>
+              
+              <view class="time-input-group">
+                <input 
+                  type="number" 
+                  class="time-input"
+                  value="{{item.hours}}"
+                  bindinput="updateReminderSetting"
+                  data-id="{{item.id}}"
+                  data-field="hours"
+                  placeholder="0"
+                  min="0"
+                  max="23"
+                />
+                <text class="time-unit">小时</text>
+              </view>
+              
+              <view class="time-input-group">
+                <input 
+                  type="number" 
+                  class="time-input"
+                  value="{{item.minutes}}"
+                  bindinput="updateReminderSetting"
+                  data-id="{{item.id}}"
+                  data-field="minutes"
+                  placeholder="0"
+                  min="0"
+                  max="59"
+                />
+                <text class="time-unit">分钟</text>
+              </view>
+            </view>
+            
+            <view class="reminder-actions">
+              <view 
+                class="remove-btn" 
+                bindtap="removeReminderSetting"
+                data-id="{{item.id}}"
+              >
+                删除
+              </view>
+            </view>
+          </view>
+        </view>
+        
+        <view class="add-reminder-btn" bindtap="addReminderSetting">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加提醒</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 任务优先级 -->
+    <view class="form-group">
+      <view class="form-label">任务优先级</view>
+      <view class="priority-selector">
+        <view 
+          class="priority-option {{priority === 'urgent_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="urgent_important"
+        >
+          <view class="priority-color-indicator" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);"></view>
+          <view class="priority-info">
+            <text class="priority-name">紧急重要</text>
+            <text class="priority-desc">需要立即处理的重要任务</text>
+          </view>
+          <view class="priority-checkbox {{priority === 'urgent_important' ? 'checked' : ''}}">
+            {{priority === 'urgent_important' ? '✓' : ''}}
+          </view>
+        </view>
+        
+        <view 
+          class="priority-option {{priority === 'important_not_urgent' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="important_not_urgent"
+        >
+          <view class="priority-color-indicator" style="background: linear-gradient(135deg, #FFB347 0%, #FFC966 100%);"></view>
+          <view class="priority-info">
+            <text class="priority-name">重要不紧急</text>
+            <text class="priority-desc">重要但可以安排时间处理</text>
+          </view>
+          <view class="priority-checkbox {{priority === 'important_not_urgent' ? 'checked' : ''}}">
+            {{priority === 'important_not_urgent' ? '✓' : ''}}
+          </view>
+        </view>
+        
+        <view 
+          class="priority-option {{priority === 'urgent_not_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="urgent_not_important"
+        >
+          <view class="priority-color-indicator" style="background: linear-gradient(135deg, #FFD93D 0%, #FFE066 100%);"></view>
+          <view class="priority-info">
+            <text class="priority-name">紧急不重要</text>
+            <text class="priority-desc">时间紧迫但重要性较低</text>
+          </view>
+          <view class="priority-checkbox {{priority === 'urgent_not_important' ? 'checked' : ''}}">
+            {{priority === 'urgent_not_important' ? '✓' : ''}}
+          </view>
+        </view>
+        
+        <view 
+          class="priority-option {{priority === 'not_urgent_not_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="not_urgent_not_important"
+        >
+          <view class="priority-color-indicator" style="background: linear-gradient(135deg, #6BCF7F 0%, #7DD87F 100%);"></view>
+          <view class="priority-info">
+            <text class="priority-name">不紧急不重要</text>
+            <text class="priority-desc">可以稍后处理的一般任务</text>
+          </view>
+          <view class="priority-checkbox {{priority === 'not_urgent_not_important' ? 'checked' : ''}}">
+            {{priority === 'not_urgent_not_important' ? '✓' : ''}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="form-actions">
+      <button class="btn btn-secondary" bindtap="cancel">取消</button>
+      <button class="btn" bindtap="saveTask">保存</button>
+    </view>
+  </view>
+</view>

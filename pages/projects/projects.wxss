@@ -1,0 +1,293 @@
+/* pages/projects/projects.wxss */
+
+/* 统计卡片 */
+.stats-card {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 32rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #4A90E2;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 卡片样式 */
+.card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.card-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 8rpx;
+}
+
+.card-arrow {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.card-preview {
+  padding: 16rpx 0;
+}
+
+.preview-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 项目列表 */
+.project-list {
+  margin-top: 16rpx;
+}
+
+.project-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.project-item:last-child {
+  border-bottom: none;
+}
+
+.project-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.project-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.project-progress {
+  font-size: 24rpx;
+  color: #4A90E2;
+  font-weight: bold;
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100%;
+  height: 8rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4A90E2;
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+}
+
+/* 项目元信息 */
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 子任务部分 */
+.subtasks-section {
+  margin: 16rpx 0;
+  padding: 16rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+}
+
+.subtasks-header {
+  margin-bottom: 12rpx;
+}
+
+.subtasks-title {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.subtasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.subtask-item {
+  padding: 12rpx;
+  background: #fff;
+  border-radius: 6rpx;
+  border: 1rpx solid #e0e0e0;
+}
+
+.subtask-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.subtask-checkbox {
+  flex-shrink: 0;
+  margin-top: 4rpx;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 6rpx;
+  background: #fff;
+  text-align: center;
+  line-height: 28rpx;
+  font-size: 20rpx;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.checkbox.checked {
+  background: #4A90E2;
+  border-color: #4A90E2;
+}
+
+.subtask-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.subtask-name {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.subtask-details {
+  display: flex;
+  gap: 16rpx;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.subtask-status {
+  padding: 4rpx 8rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+}
+
+.subtask-status.completed {
+  background: #E8F5E8;
+  color: #52C41A;
+}
+
+.subtask-status.pending {
+  background: #E5F3FF;
+  color: #4A90E2;
+}
+
+/* 项目操作 */
+.project-actions {
+  display: flex;
+  gap: 20rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.action-btn {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  color: #4A90E2;
+  cursor: pointer;
+  border-radius: 6rpx;
+  transition: background 0.3s ease;
+}
+
+.action-btn:hover {
+  background: #f0f8ff;
+}
+
+
+.action-btn.resume {
+  color: #28A745;
+  background: #F0FFF4;
+}
+
+.action-btn.resume:hover {
+  background: #E8F5E8;
+}
+
+.action-btn.expand {
+  color: #666;
+  background: #f0f0f0;
+}
+
+
+.arrow {
+  font-size: 20rpx;
+  transition: transform 0.3s ease;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 0;
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  display: block;
+  font-size: 28rpx;
+  color: #ccc;
+} 

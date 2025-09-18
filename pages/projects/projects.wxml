@@ -1,0 +1,82 @@
+<!--pages/projects/projects.wxml-->
+<view class="container">
+  <!-- 项目统计 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-number">{{totalProjects}}</text>
+      <text class="stat-label">总项目</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{activeProjects}}</text>
+      <text class="stat-label">进行中</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{completedProjects}}</text>
+      <text class="stat-label">已完成</text>
+    </view>
+  </view>
+
+  <!-- 全部项目板块 -->
+  <view class="card" bindtap="goToAllProjects">
+    <view class="card-header">
+      <text class="card-title">全部项目</text>
+      <text class="card-count">({{totalProjects}})</text>
+      <text class="card-arrow">></text>
+    </view>
+    <view class="card-preview">
+      <text class="preview-text">查看和管理您的所有项目</text>
+    </view>
+  </view>
+
+  <!-- 新增项目板块 -->
+  <view class="card" bindtap="goToNewProject">
+    <view class="card-header">
+      <text class="card-title">新增项目</text>
+      <text class="card-arrow">></text>
+    </view>
+    <view class="card-preview">
+      <text class="preview-text">创建新的项目任务</text>
+    </view>
+  </view>
+
+  <!-- 进行中项目预览 -->
+  <view class="card" wx:if="{{activeProjectsList.length > 0}}">
+    <view class="card-title">进行中项目</view>
+    <view class="project-list">
+      <view 
+        class="project-item" 
+        wx:for="{{activeProjectsList}}" 
+        wx:key="id"
+      >
+        <view class="project-info" bindtap="goToProjectDetail" data-id="{{item.id}}">
+          <view class="project-header">
+            <text class="project-name">{{item.name}}</text>
+            <text class="project-progress">{{item.progress}}%</text>
+          </view>
+        </view>
+        
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{item.progress}}%"></view>
+        </view>
+        
+        <view class="project-meta">
+          <text class="project-deadline" wx:if="{{item.deadline}}">截止：{{item.deadline}}</text>
+          <text class="project-tasks">{{item.completedTasks}}/{{item.totalTasks}}个任务</text>
+        </view>
+        
+        
+        <view class="project-actions">
+          <text class="action-btn" bindtap="addTaskToProject" data-id="{{item.id}}">添加任务</text>
+          <text class="action-btn delete" bindtap="deleteProject" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{totalProjects === 0}}">
+    <text class="empty-text">暂无项目</text>
+    <text class="empty-hint">点击"新增项目"开始创建您的第一个项目</text>
+  </view>
+</view> 

@@ -1,0 +1,94 @@
+<!--pages/all-projects/all-projects.wxml-->
+<view class="container">
+  <!-- 筛选和排序控制 -->
+  <view class="controls-section">
+    <view class="filter-tabs">
+      <view 
+        class="filter-tab {{filterStatus === 'all' ? 'active' : ''}}"
+        bindtap="toggleFilterStatus"
+        data-status="all"
+      >
+        全部
+      </view>
+      <view 
+        class="filter-tab {{filterStatus === 'active' ? 'active' : ''}}"
+        bindtap="toggleFilterStatus"
+        data-status="active"
+      >
+        进行中
+      </view>
+      <view 
+        class="filter-tab {{filterStatus === 'completed' ? 'active' : ''}}"
+        bindtap="toggleFilterStatus"
+        data-status="completed"
+      >
+        已完成
+      </view>
+    </view>
+    
+    <view class="sort-controls">
+      <view class="sort-btn" bindtap="toggleSortType">
+        <text class="sort-text">排序：{{sortType === 'createdAt' ? '创建时间' : (sortType === 'deadline' ? '截止日期' : '完成进度')}}</text>
+        <text class="sort-icon">🔄</text>
+      </view>
+      <view class="edit-toggle" bindtap="toggleEditMode">
+        {{isEditing ? '完成' : '编辑'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目列表 -->
+  <view class="projects-section">
+    <view class="projects-list">
+      <view 
+        class="project-item" 
+        wx:for="{{filteredProjects}}" 
+        wx:key="id"
+        bindtap="goToProjectDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="project-header">
+          <view class="project-title">{{item.name}}</view>
+          <view class="project-status status-{{item.status}}">
+            {{item.status === 'active' ? '进行中' : '已完成'}}
+          </view>
+        </view>
+        
+        <view class="project-progress">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progress}}"></view>
+          </view>
+          <text class="progress-text">{{item.progress}}% ({{item.completedTasks}}/{{item.totalTasks}})</text>
+        </view>
+        
+        <view class="project-meta">
+          <view class="meta-item" wx:if="{{item.deadline}}">
+            <text class="meta-label">截止：</text>
+            <text class="meta-value">{{item.deadline}}</text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-label">创建：</text>
+            <text class="meta-value">{{item.createdAt}}</text>
+          </view>
+        </view>
+        
+        
+        <view class="project-actions" wx:if="{{isEditing}}" catchtap="true">
+          <text class="action-btn" bindtap="editProject" data-id="{{item.id}}">编辑</text>
+          <text class="action-btn delete" bindtap="deleteProject" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{filteredProjects.length === 0}}">
+      <text class="empty-text">暂无项目</text>
+      <text class="empty-hint">点击右上角"+"创建您的第一个项目</text>
+    </view>
+  </view>
+</view>
+
+<!-- 浮动添加按钮 -->
+<view class="fab" bindtap="goToNewProject">
+  <text class="fab-icon">+</text>
+</view>

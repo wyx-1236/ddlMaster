@@ -1,0 +1,75 @@
+<!--pages/edit-project/edit-project.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">编辑项目</text>
+  </view>
+
+  <view class="form">
+    <!-- 项目名称 -->
+    <view class="form-group">
+      <text class="label">项目名称 *</text>
+      <input 
+        class="input" 
+        placeholder="请输入项目名称" 
+        value="{{projectName}}"
+        bindinput="onNameInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 项目描述 -->
+    <view class="form-group">
+      <text class="label">项目描述</text>
+      <textarea 
+        class="textarea" 
+        placeholder="请输入项目描述（可选）" 
+        value="{{projectDescription}}"
+        bindinput="onDescriptionInput"
+        maxlength="200"
+        auto-height
+      />
+    </view>
+
+    <!-- 截止日期 -->
+    <view class="form-group">
+      <text class="label">截止日期</text>
+      <picker 
+        mode="date" 
+        value="{{projectDeadline}}" 
+        bindchange="onDeadlineChange"
+        start="{{today}}"
+      >
+        <view class="picker">
+          <text class="picker-text">{{projectDeadline || '请选择截止日期'}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 优先级 -->
+    <view class="form-group">
+      <text class="label">优先级</text>
+      <picker 
+        mode="selector" 
+        range="{{priorityOptions}}" 
+        range-key="name"
+        value="{{priorityIndex}}"
+        bindchange="onPriorityChange"
+      >
+        <view class="picker">
+          <text class="picker-text">{{priorityOptions[priorityIndex].name}}</text>
+          <text class="picker-arrow">></text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="btn btn-danger" bindtap="deleteProject">删除项目</button>
+    <button class="btn btn-primary" bindtap="saveProject">保存修改</button>
+  </view>
+</view>
+
+
+

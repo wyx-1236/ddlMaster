@@ -1,0 +1,312 @@
+/* app.wxss */
+/* 全局样式 */
+page {
+  background-color: #F8F9FA;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: #333;
+}
+
+/* 通用容器样式 */
+.container {
+  padding: 20rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式 */
+.title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+/* 按钮样式 */
+.btn {
+  background: #4A90E2;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.btn-secondary {
+  background: #6C757D;
+}
+
+.btn-danger {
+  background: #DC3545;
+}
+
+/* 输入框样式 */
+.input {
+  border: 2rpx solid #E9ECEF;
+  border-radius: 8rpx;
+  padding: 16rpx;
+  font-size: 28rpx;
+  background: #FFFFFF;
+}
+
+.input:focus {
+  border-color: #4A90E2;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  margin-right: 16rpx;
+}
+
+.tag-important {
+  background: #FFE5E5;
+  color: #DC3545;
+}
+
+.tag-normal {
+  background: #E5F3FF;
+  color: #4A90E2;
+}
+
+.tag-cycle {
+  background: #E8F5E8;
+  color: #2E7D32;
+}
+
+.tag-periodic {
+  background: #FFF3E5;
+  color: #FD7E14;
+}
+
+.tag-daily {
+  background: #E5FFE5;
+  color: #28A745;
+}
+
+/* 任务项样式 */
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #4A90E2;
+  border-radius: 6rpx;
+  margin-right: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 24rpx;
+}
+
+.task-checkbox.completed {
+  background: #4A90E2;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-header {
+  margin-bottom: 8rpx;
+}
+
+.task-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.task-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 8rpx;
+}
+
+.task-tag {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 12rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.tag-icon {
+  font-size: 18rpx;
+}
+
+.tag-name {
+  font-size: 18rpx;
+  font-weight: 500;
+}
+
+.task-project {
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.project-label {
+  font-size: 22rpx;
+  color: #4A90E2;
+  background: rgba(74, 144, 226, 0.1);
+  padding: 4rpx 8rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid rgba(74, 144, 226, 0.3);
+}
+
+.task-deadline {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.task-cycle-info {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.cycle-date-range {
+  margin-bottom: 4rpx;
+}
+
+.cycle-progress {
+  font-size: 22rpx;
+  color: #4A90E2;
+  font-weight: 500;
+}
+
+.task-important {
+  border-left: 6rpx solid #DC3545;
+  padding-left: 20rpx;
+}
+
+.task-normal {
+  border-left: 6rpx solid #4A90E2;
+  padding-left: 20rpx;
+}
+
+/* 浮动按钮样式 */
+.fab {
+  position: fixed;
+  bottom: 120rpx;
+  right: 40rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: #4A90E2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 48rpx;
+  box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
+  z-index: 1000;
+}
+
+/* 日历样式 */
+.calendar {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.calendar-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-nav-btn {
+  width: 60rpx;
+  height: 60rpx;
+  border: 2rpx solid #E9ECEF;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 16rpx;
+  color: #666;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8rpx;
+}
+
+.calendar-weekday {
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.calendar-day {
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  position: relative;
+}
+
+.calendar-day.today {
+  background: #4A90E2;
+  color: #FFFFFF;
+}
+
+.calendar-day.selected {
+  background: #E5F3FF;
+  color: #4A90E2;
+}
+
+.calendar-day.has-tasks::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rpx;
+  height: 8rpx;
+  background: #28A745;
+  border-radius: 50%;
+}
+
+.calendar-day.other-month {
+  color: #CCC;
+}

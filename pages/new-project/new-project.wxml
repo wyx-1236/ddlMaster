@@ -1,0 +1,76 @@
+<!--pages/new-project/new-project.wxml-->
+<view class="container">
+  <!-- 项目基本信息 -->
+  <view class="card">
+    <view class="card-title">项目信息</view>
+    <view class="form-group">
+      <text class="form-label">项目名称</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入项目名称"
+        value="{{projectName}}"
+        bindinput="onProjectNameInput"
+      />
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目描述</text>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入项目描述"
+        value="{{projectDescription}}"
+        bindinput="onProjectDescriptionInput"
+      />
+    </view>
+    <view class="form-group">
+      <text class="form-label">截止日期</text>
+      <picker 
+        mode="date" 
+        value="{{projectDeadline}}"
+        bindchange="onProjectDeadlineChange"
+      >
+        <view class="picker-value">{{projectDeadline || '请选择截止日期'}}</view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">项目优先级</text>
+      <view class="priority-selector">
+        <view 
+          class="priority-option {{projectPriority === 'urgent_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="urgent_important"
+        >
+          紧急重要
+        </view>
+        <view 
+          class="priority-option {{projectPriority === 'important_not_urgent' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="important_not_urgent"
+        >
+          重要不紧急
+        </view>
+        <view 
+          class="priority-option {{projectPriority === 'urgent_not_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="urgent_not_important"
+        >
+          紧急不重要
+        </view>
+        <view 
+          class="priority-option {{projectPriority === 'not_urgent_not_important' ? 'selected' : ''}}"
+          bindtap="selectPriority"
+          data-priority="not_urgent_not_important"
+        >
+          不紧急不重要
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="btn btn-secondary" bindtap="cancel">取消</button>
+    <button class="btn btn-primary" bindtap="saveProject">保存项目</button>
+  </view>
+</view>

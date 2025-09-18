@@ -1,0 +1,230 @@
+/* pages/index/index.wxml */
+/* 首页特定样式 */
+
+/* 任务板块样式优化 */
+.task-item {
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  background: #F8F9FA;
+}
+
+/* 任务优先级样式 */
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+/* 移除图标相关样式 */
+
+/* 任务项基础样式优化 */
+.task-item {
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.1);
+}
+
+.task-checkbox {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.task-checkbox:hover {
+  transform: scale(1.1);
+}
+
+/* 提醒设置按钮样式 */
+.reminder-settings-btn {
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  margin-left: 10rpx;
+  transition: all 0.3s ease;
+}
+
+.reminder-settings-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* 日历样式优化 */
+.calendar-day {
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  min-height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day:hover {
+  background: #F0F8FF;
+}
+
+.calendar-day.today {
+  background: #4A90E2;
+  color: #FFFFFF;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+.calendar-day.selected {
+  background: #E5F3FF;
+  color: #4A90E2;
+  font-weight: bold;
+  border: 2rpx solid #4A90E2;
+  border-radius: 50%;
+}
+
+.calendar-day.has-tasks::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rpx;
+  height: 8rpx;
+  background: #28A745;
+  border-radius: 50%;
+}
+
+.calendar-day.other-month {
+  color: #CCC;
+}
+
+.calendar-day.isWeekend {
+  color: #FF6B6B;
+}
+
+.calendar-day.other-month.isWeekend {
+  color: #FFB3B3;
+}
+
+/* 日历网格样式 */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4rpx;
+  background: #F8F9FA;
+  padding: 16rpx;
+  border-radius: 12rpx;
+}
+
+.calendar-weekday {
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  color: #666;
+  font-weight: 500;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+}
+
+/* 日历头部样式 */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+  padding: 0 16rpx;
+}
+
+.calendar-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-nav-btn {
+  width: 60rpx;
+  height: 60rpx;
+  border: 2rpx solid #E9ECEF;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8rpx;
+  color: #666;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.calendar-nav-btn:hover {
+  border-color: #4A90E2;
+  color: #4A90E2;
+}
+
+/* 任务详情样式 */
+.task-details {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+  line-height: 1.4;
+  background: #F8F9FA;
+  padding: 8rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+/* 日期信息样式 */
+.date-info {
+  font-size: 24rpx;
+  color: #666;
+  font-weight: normal;
+  margin-top: 8rpx;
+}
+
+.weekend-mark {
+  background: #FF6B6B;
+  color: #FFFFFF;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  font-size: 20rpx;
+  margin-left: 16rpx;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .calendar-grid {
+    gap: 2rpx;
+    padding: 12rpx;
+  }
+  
+  .calendar-day {
+    padding: 12rpx 0;
+    font-size: 24rpx;
+    min-height: 50rpx;
+  }
+  
+  .calendar-weekday {
+    padding: 12rpx 0;
+    font-size: 20rpx;
+  }
+  
+  .calendar-title {
+    font-size: 28rpx;
+  }
+  
+  .calendar-nav-btn {
+    width: 50rpx;
+    height: 50rpx;
+  }
+}

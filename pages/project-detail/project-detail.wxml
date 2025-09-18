@@ -1,0 +1,174 @@
+<!--pages/project-detail/project-detail.wxml-->
+<view class="container" wx:if="{{project}}">
+  <!-- 项目基本信息 -->
+  <view class="project-header">
+    <view class="project-title">{{project.name}}</view>
+    <view class="project-description" wx:if="{{project.description}}">{{project.description}}</view>
+    
+    <view class="project-meta">
+      <view class="meta-item" wx:if="{{project.deadline}}">
+        <text class="meta-label">截止日期</text>
+        <text class="meta-value">{{project.deadline}}</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">创建时间</text>
+        <text class="meta-value">{{project.formattedCreatedAt}}</text>
+      </view>
+    </view>
+
+    <!-- 项目进度 -->
+    <view class="progress-section">
+      <view class="progress-header">
+        <text class="progress-label">项目进度</text>
+        <text class="progress-percentage">{{project.progress}}%</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{project.progress}}%"></view>
+      </view>
+      <view class="progress-stats">
+        <text class="stats-text">{{project.completedTasks}}/{{project.totalTasks}} 个任务已完成</text>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="btn btn-primary" bindtap="addTaskToProject">添加任务</button>
+    <button class="btn btn-secondary" bindtap="editProject">编辑项目</button>
+    <button class="btn btn-danger" bindtap="deleteProject">删除项目</button>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="tasks-section">
+    <view class="section-header">
+      <text class="section-title">项目任务</text>
+      <view class="edit-toggle" bindtap="toggleEditMode">
+        {{isEditing ? '完成' : '编辑'}}
+      </view>
+    </view>
+
+    <!-- 未完成任务 -->
+    <view class="task-group" wx:if="{{uncompletedTasks.length > 0}}">
+      <view class="group-title">未完成任务 ({{uncompletedTasks.length}})</view>
+      <view class="task-list">
+        <view 
+          class="task-item"
+          wx:for="{{uncompletedTasks}}" 
+          wx:key="id"
+          style="background: {{item.priorityBgColor}};"
+        >
+          <view 
+            class="task-checkbox {{item.completed ? 'completed' : ''}}"
+            bindtap="completeTask"
+            data-id="{{item.id}}"
+          >
+            <text wx:if="{{item.completed}}">✓</text>
+          </view>
+          <view class="task-content">
+            <view class="task-header">
+              <view class="task-name">{{item.name}}</view>
+              <view class="task-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+                <view 
+                  wx:for="{{item.tags}}" 
+                  wx:key="*this"
+                  wx:for-item="tagId"
+                  class="task-tag"
+                  style="background: {{item.tagColors[tagId]}};"
+                >
+                  <text class="tag-icon">{{item.tagIcons[tagId]}}</text>
+                  <text class="tag-name">{{item.tagNames[tagId]}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="task-deadline" wx:if="{{item.type === 'periodic'}}">
+              截止时间：{{item.deadline}} {{item.deadlineTime}}
+            </view>
+            <view class="task-cycle-info" wx:if="{{item.type === 'cycle'}}">
+              <view class="cycle-date-range">周期：{{item.startDate}} 至 {{item.endDate}}</view>
+              <view class="cycle-progress" wx:if="{{item.cycleStats}}">
+                完成进度：{{item.cycleStats.completedDates}}/{{item.cycleStats.totalDates}} ({{item.cycleStats.completionRate}}%)
+              </view>
+            </view>
+            <view class="task-details" wx:if="{{item.details}}">{{item.details}}</view>
+          </view>
+          <view 
+            class="delete-btn" 
+            wx:if="{{isEditing}}"
+            bindtap="deleteTask"
+            data-id="{{item.id}}"
+          >
+            删除
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 已完成任务 -->
+    <view class="task-group" wx:if="{{completedTasks.length > 0}}">
+      <view class="group-title">已完成任务 ({{completedTasks.length}})</view>
+      <view class="task-list">
+        <view 
+          class="task-item completed"
+          wx:for="{{completedTasks}}" 
+          wx:key="id"
+          style="background: {{item.priorityBgColor}};"
+        >
+          <view 
+            class="task-checkbox completed"
+            bindtap="completeTask"
+            data-id="{{item.id}}"
+          >
+            <text>✓</text>
+          </view>
+          <view class="task-content">
+            <view class="task-header">
+              <view class="task-name">{{item.name}}</view>
+              <view class="task-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+                <view 
+                  wx:for="{{item.tags}}" 
+                  wx:key="*this"
+                  wx:for-item="tagId"
+                  class="task-tag"
+                  style="background: {{item.tagColors[tagId]}};"
+                >
+                  <text class="tag-icon">{{item.tagIcons[tagId]}}</text>
+                  <text class="tag-name">{{item.tagNames[tagId]}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="task-deadline" wx:if="{{item.type === 'periodic'}}">
+              截止时间：{{item.deadline}} {{item.deadlineTime}}
+            </view>
+            <view class="task-cycle-info" wx:if="{{item.type === 'cycle'}}">
+              <view class="cycle-date-range">周期：{{item.startDate}} 至 {{item.endDate}}</view>
+              <view class="cycle-progress" wx:if="{{item.cycleStats}}">
+                完成进度：{{item.cycleStats.completedDates}}/{{item.cycleStats.totalDates}} ({{item.cycleStats.completionRate}}%)
+              </view>
+            </view>
+            <view class="task-details" wx:if="{{item.details}}">{{item.details}}</view>
+          </view>
+          <view 
+            class="delete-btn" 
+            wx:if="{{isEditing}}"
+            bindtap="deleteTask"
+            data-id="{{item.id}}"
+          >
+            删除
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{projectTasks.length === 0}}">
+      <text class="empty-text">暂无任务</text>
+      <text class="empty-hint">点击"添加任务"开始为项目添加任务</text>
+    </view>
+  </view>
+</view>
+
+<!-- 加载状态 -->
+<view class="loading-state" wx:if="{{!project}}">
+  <text class="loading-text">加载中...</text>
+</view>

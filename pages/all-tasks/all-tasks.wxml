@@ -1,0 +1,103 @@
+<!--pages/all-tasks/all-tasks.wxml-->
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="header">
+    <view>
+      <text class="header-title">全部任务</text>
+    </view>
+    <view class="header-actions">
+      <view class="sort-btn" bindtap="toggleSortType">
+        {{sortType === 'deadline' ? '按优先级' : '按日期'}}
+      </view>
+      <view class="edit-btn" bindtap="toggleEditMode">
+        {{isEditing ? '完成' : '编辑'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 任务统计 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-number">{{totalTasks}}</text>
+      <text class="stat-label">总任务</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{uncompletedTasks}}</text>
+      <text class="stat-label">未完成</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{completedTasks}}</text>
+      <text class="stat-label">已完成</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{completionRate}}%</text>
+      <text class="stat-label">完成率</text>
+    </view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="card">
+    <view wx:if="{{allTasks.length === 0}}" class="empty-state">
+      <text class="empty-text">还没有添加任何任务</text>
+    </view>
+    <view 
+      wx:for="{{allTasks}}" 
+      wx:key="id"
+      class="task-item {{item.completed ? 'completed-task' : ''}}"
+      style="background: {{item.priorityBgColor}};"
+    >
+      <view 
+        class="task-checkbox {{item.completed ? 'completed' : ''}}"
+        bindtap="completeTask"
+        data-id="{{item.id}}"
+      >
+        <text wx:if="{{item.completed}}">✓</text>
+      </view>
+      <view class="task-content">
+        <view class="task-header">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-project" wx:if="{{item.projectName}}">
+            <text class="project-label">📁 {{item.projectName}}</text>
+          </view>
+          <view class="task-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+            <view 
+              wx:for="{{item.tags}}" 
+              wx:key="*this"
+              wx:for-item="tagId"
+              class="task-tag"
+              style="background: {{item.tagColors[tagId]}};"
+            >
+              <text class="tag-icon">{{item.tagIcons[tagId]}}</text>
+              <text class="tag-name">{{item.tagNames[tagId]}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="task-deadline" wx:if="{{item.type === 'periodic'}}">
+          截止时间：{{item.deadline}} {{item.deadlineTime}}
+        </view>
+        <view class="task-cycle-info" wx:if="{{item.type === 'cycle'}}">
+          <view class="cycle-date-range">周期：{{item.startDate}} 至 {{item.endDate}}</view>
+          <view class="cycle-progress" wx:if="{{item.cycleStats}}">
+            完成进度：{{item.cycleStats.completedDates}}/{{item.cycleStats.totalDates}} ({{item.cycleStats.completionRate}}%)
+          </view>
+        </view>
+        <view class="task-details" wx:if="{{item.details}}">{{item.details}}</view>
+        <view class="task-status">
+          <text class="status-text {{item.completed ? 'completed' : ''}}">
+            {{item.completed ? '已完成' : '未完成'}}
+          </text>
+        </view>
+      </view>
+      <view class="tag tag-{{item.type}}">
+        {{item.type === 'cycle' ? (item.cycleValue + (item.cycleType === 'days' ? '天' : '周')) : (item.type === 'periodic' ? '定期' : '每日')}}
+      </view>
+      <view class="task-actions" wx:if="{{isEditing}}">
+        <view class="action-btn edit" bindtap="editTask" data-id="{{item.id}}">编辑</view>
+        <view class="action-btn delete" bindtap="deleteTask" data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 浮动添加按钮 -->
+  <view class="fab" bindtap="addTask">+</view>
+</view>
